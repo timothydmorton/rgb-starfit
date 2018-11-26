@@ -8,7 +8,9 @@ import numpy as np
 
 # Read in full table from Eilers et al.
 
-eilers_table_filename = '/Users/tdm/Downloads/spectrophotometric_parallax_HER2018.fits'
+ROOT = os.path.join(os.getenv('PROJECT_DATA'), 'rgb-starfit')
+
+eilers_table_filename = os.path.join(ROOT, 'spectrophotometric_parallax_HER2018.fits')
 
 table = fits.getdata(eilers_table_filename)
 rgbs = Table(table)
@@ -60,4 +62,4 @@ for c in rgb_df.columns:
 
 rgb_df.rename(columns=band_map, inplace=True)
 
-rgb_df.to_hdf('data/rgb.hdf', 'df')
+rgb_df.to_hdf(os.path.join(ROOT, 'rgb.hdf'), 'df')
