@@ -8,7 +8,7 @@ STARMODEL_ROOT = os.path.join(ROOT, 'starmodels')
 
 os.makedirs(STARMODEL_ROOT, exist_ok=True)
 
-rgb_df = pd.read_hdf(os.path.join(ROOT, 'rgbs.hdf'), 'df')
+rgb_df = pd.read_hdf(os.path.join(ROOT, 'rgb.hdf'), 'df')
 
 for _, star in rgb_df.iloc[:10].iterrows():
     name = star['tmass_key']
