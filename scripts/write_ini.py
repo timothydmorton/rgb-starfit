@@ -14,7 +14,7 @@ bands = ['J', 'H', 'K', 'G','BP', 'RP',
          'W1', 'W2', 'W3', 'W4', 
          'IRAC_3.6', 'IRAC_4.5', 'IRAC_5.8', 'IRAC_8.0']
 
-for _, star in rgb_df.iloc.iterrows():
+for _, star in rgb_df.iterrows():
     name = star['tmass_key']
     os.makedirs(os.path.join(STARMODEL_ROOT, str(name)), exist_ok=True)
     filename = os.path.join(STARMODEL_ROOT, str(name), 'star.ini')
