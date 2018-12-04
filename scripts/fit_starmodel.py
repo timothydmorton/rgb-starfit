@@ -139,7 +139,7 @@ if __name__ == '__main__':
     from isochrones import get_ichrone
     
     parser = ArgumentParser(description="Run stellar model fits.")
-    parser.add_argument('nrows', dest='n_rows', type=int, default=None)
+    parser.add_argument('--nrows', dest='n_rows', type=int, default=None)
     
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--ncores", dest="n_cores", default=1,
