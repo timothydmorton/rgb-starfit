@@ -116,7 +116,7 @@ class Worker(object):
 def main(pool, filename=None, n_rows=None):
 
     if filename is None:
-        filename = os.path.join(os.getenv('PROJECT_DIR', '/Users/tdm/dbufl/projects'), 'rgb-starfit', 'rgb.hdf')
+        filename = os.path.join(os.getenv('PROJECT_DATA', '/Users/tdm/dbufl/projects'), 'rgb-starfit', 'rgb.hdf')
 
     rgbs = pd.read_hdf(filename, 'df')
     if n_rows is not None:
