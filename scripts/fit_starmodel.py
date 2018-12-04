@@ -113,19 +113,21 @@ class Worker(object):
     def __call__(self, row):
         return self.work(row)
         
-def main(pool, filename=None):
+def main(pool, filename=None, n_rows=None):
 
     if filename is None:
         filename = os.path.join(os.getenv('PROJECT_DIR', '/Users/tdm/dbufl/projects'), 'rgb-starfit', 'rgb.hdf')
 
     rgbs = pd.read_hdf(filename, 'df')
+    if n_rows is not None:
+        rgbs = rgbs.iloc[:n_rows]
     
     bands = ['G','BP', 'RP', 'J', 'H', 'K'] #, 'W1', 'W2', 'W3', 'W4']#, 'IRAC_3.6', 'IRAC_4.5', 'IRAC_5.8', 'IRAC_8.0']
     
     fit_kwargs = dict(force_no_MPI=True)
     worker = Worker(bands, fit_kwargs=fit_kwargs)
     
-    for r in pool.map(worker, [row for _, row in rgbs.iloc[:3].iterrows()],
+    for r in pool.map(worker, [row for _, row in rgbs.iterrows()],
                       callback=worker.write_results):
         pass
     
@@ -137,7 +139,8 @@ if __name__ == '__main__':
     from isochrones import get_ichrone
     
     parser = ArgumentParser(description="Run stellar model fits.")
-
+    parser.add_argument('n_rows', type=int, default=None)
+    
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--ncores", dest="n_cores", default=1,
                        type=int, help="Number of processes (uses multiprocessing).")
@@ -146,7 +149,7 @@ if __name__ == '__main__':
     args = parser.parse_args()    
 
     pool = schwimmbad.choose_pool(mpi=args.mpi, processes=args.n_cores)
-    main(pool)
+    main(pool, n_rows=args.n_rows)
     
     
     
