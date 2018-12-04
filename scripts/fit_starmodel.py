@@ -10,7 +10,7 @@ from isochrones.extinction import get_AV_infinity
 
 from isochrones import get_ichrone
 
-PROJECT_DIR = os.path.join(os.getenv('PROJECT_DATA', '/Users/tdm/dbufl/projects'), 'rgb-starfits')
+PROJECT_DIR = os.path.join(os.getenv('PROJECT_DATA', '/Users/tdm/dbufl/projects'), 'rgb-starfit')
 
 def mod_from_row(iso, row, props, name_col='tmass_key', rootdir=PROJECT_DIR,
                  halo_fraction=0.5, tag=None, **kwargs):
