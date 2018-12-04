@@ -10,6 +10,8 @@ from isochrones.extinction import get_AV_infinity
 
 from isochrones import get_ichrone
 
+PROJECT_DIR = os.path.join(os.getenv('PROJECT_DATA', '/Users/tdm/dbufl/projects'), 'rgb-starfits')
+
 def mod_from_row(iso, row, props, name_col='tmass_key', rootdir='.',
                  halo_fraction=0.5, tag=None, **kwargs):
     
@@ -61,11 +63,11 @@ class Worker(object):
         
     @property
     def spec_summary_file(self):
-        return '{}_spec.txt'.format(self.results_basename)
+        return os.path.join(PROJECT_DIR, '{}_spec.txt'.format(self.results_basename))
 
     @property
     def phot_summary_file(self):
-        return '{}_phot.txt'.format(self.results_basename)
+        return os.path.join(PROJECT_DIR, '{}_phot.txt'.format(self.results_basename))
         
     def work(self, row):    
 
@@ -116,7 +118,7 @@ class Worker(object):
 def main(pool, filename=None, n_rows=None):
 
     if filename is None:
-        filename = os.path.join(os.getenv('PROJECT_DATA', '/Users/tdm/dbufl/projects'), 'rgb-starfit', 'rgb.hdf')
+        filename = os.path.join(PROJECT_DIR, 'rgb.hdf')
 
     rgbs = pd.read_hdf(filename, 'df')
     if n_rows is not None:
@@ -124,7 +126,7 @@ def main(pool, filename=None, n_rows=None):
     
     bands = ['G','BP', 'RP', 'J', 'H', 'K'] #, 'W1', 'W2', 'W3', 'W4']#, 'IRAC_3.6', 'IRAC_4.5', 'IRAC_5.8', 'IRAC_8.0']
     
-    fit_kwargs = dict(force_no_MPI=True)
+    fit_kwargs = dict(force_no_MPI=True, verbose=False)
     worker = Worker(bands, fit_kwargs=fit_kwargs)
     
     for r in pool.map(worker, [row for _, row in rgbs.iterrows()],
