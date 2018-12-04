@@ -47,9 +47,12 @@ rgb_df['G'] = -2.5 * np.log10(G_flux) + ZP_G
 rgb_df['BP'] = -2.5 * np.log10(BP_flux) + ZP_BP
 rgb_df['RP'] = -2.5 * np.log10(RP_flux) + ZP_RP
 
-rgb_df['G_unc'] = (2.5 / np.log(10)) * G_flux_unc/G_flux
-rgb_df['BP_unc'] = (2.5 / np.log(10)) * BP_flux_unc/BP_flux
-rgb_df['RP_unc'] = (2.5 / np.log(10)) * RP_flux_unc/RP_flux
+unc_sys = 0.002
+
+rgb_df['G_unc'] = np.sqrt(((2.5 / np.log(10)) * G_flux_unc/G_flux)**2 + unc_sys**2)
+rgb_df['BP_unc'] = np.sqrt(((2.5 / np.log(10)) * BP_flux_unc/BP_flux)**2 + unc_sys**2)
+rgb_df['RP_unc'] = np.sqrt(((2.5 / np.log(10)) * RP_flux_unc/RP_flux)**2 + unc_sys**2)
+
 
 col_map = dict(J='J', H='H', K='K',
                 w1mpro='W1', w2mpro='W2', w3mpro='W3', w4mpro='W4',
