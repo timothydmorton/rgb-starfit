@@ -12,7 +12,8 @@ from isochrones import get_ichrone
 
 PROJECT_DIR = os.path.join(os.getenv('PROJECT_DATA', '/Users/tdm/dbufl/projects'), 'rgb-starfit')
 
-def mod_from_row(iso, row, props, name_col='tmass_key', rootdir=PROJECT_DIR,
+def mod_from_row(iso, row, props, name_col='tmass_key', 
+                 rootdir=os.path.join(PROJECT_DIR, 'fit_results'),
                  halo_fraction=0.5, tag=None, **kwargs):
     
     kwargs.update({p: (np.float64(row[p]), np.float64(row['{}_unc'.format(p)])) for p in props 
